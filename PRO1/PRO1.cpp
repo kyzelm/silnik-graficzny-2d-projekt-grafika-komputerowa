@@ -1,24 +1,12 @@
-#include <SFML/Graphics.hpp>
+#include "Engine.h"
 
-using namespace sf;
+#include <iostream>
+
+using namespace std;
 
 int main()
 {
-	RenderWindow window(VideoMode(800, 600), "Silnik graficzny 2D");
-	Event event;
-
-	while (window.isOpen())
-	{
-		while (window.pollEvent(event))
-		{
-			if (event.type == Event::Closed)
-				window.close();
-		}
-
-		window.clear(Color::White);
-
-		window.display();
-	}
+	cout << "Hello, World!" << endl;
 
 	return 0;
 }
