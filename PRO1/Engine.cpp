@@ -102,7 +102,7 @@ Image Engine::Primitives::getLineImage(Vector2f start, Vector2f end, int thickes
 	float m = abs(dy / dx);
 
 	float ly, hy, lx, hx;
-	
+
 	if (m < 1) {
 		if (dx < 0)
 		{
@@ -121,11 +121,14 @@ Image Engine::Primitives::getLineImage(Vector2f start, Vector2f end, int thickes
 
 		for (; lx <= hx; lx++)
 		{
-			if (lx >= 0 && lx < image.getSize().x && ly >= 0 && ly < image.getSize().y)
+			for (int i = 0; i < thickess; i++)
 			{
-				image.setPixel(lx, ly, color);
+				if ((ly + ((int)(i / 2) + 0.5) * pow(-1, i)) >= 0 && (ly + ((int)(i / 2) + 0.5) * pow(-1, i)) < image.getSize().y && lx >= 0 && lx < image.getSize().x)
+				{
+					image.setPixel(lx, (ly + ((int)(i / 2) + 0.5) * pow(-1, i)), color);
+				}
 			}
-			ly = dy < 0 ? ly + m : ly - m;
+			ly += ly < hy ? m : -m;
 		}
 	}
 	else {
@@ -146,11 +149,14 @@ Image Engine::Primitives::getLineImage(Vector2f start, Vector2f end, int thickes
 
 		for (; ly <= hy; ly++)
 		{
-			if (lx >= 0 && lx < image.getSize().x && lx >= 0 && lx < image.getSize().y)
+			for (int i = 0; i < thickess; i++)
 			{
-				image.setPixel(lx, ly, color);
+				if ((lx + ((int)(i / 2) + 0.5) * pow(-1, i)) >= 0 && (lx + ((int)(i / 2) + 0.5) * pow(-1, i)) < image.getSize().x && ly >= 0 && ly < image.getSize().y)
+				{
+					image.setPixel((lx + ((int)(i / 2) + 0.5) * pow(-1, i)), ly, color);
+				}
 			}
-			lx = dx < 0 ? lx + 1 / m : lx - 1 / m;
+			lx += lx < hx ? 1 / m : -1 / m;
 		}
 	}
 

@@ -39,7 +39,7 @@ void gameUpdate()
 
 void gameRender()
 {
-	Image line = Engine::Primitives::getLineImage(Vector2f(150, 60), Vector2f(20, 100), 5, Color::Red);
+	Image line = Engine::Primitives::getLineImage(Vector2f(0, 0), Vector2f(800, 600), 3, Color::Red);
 	engine.draw(line);
 }
 
