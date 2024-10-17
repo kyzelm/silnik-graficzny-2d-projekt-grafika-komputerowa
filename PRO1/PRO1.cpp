@@ -1,10 +1,13 @@
 #include "Engine.h"
 
+#include "PrimitiveRenderer.h"
+#include "Point2D.h"
 #include <iostream>
 
 using namespace std;
 
 Engine engine(800, 600, "SFML Engine", Style::Default);
+PrimitiveRenderer renderer(&engine);
 
 void gameEventHandler(Event event)
 {
@@ -39,11 +42,8 @@ void gameUpdate()
 
 void gameRender()
 {
-	Image line = Engine::Primitives::getLineImage(Vector2f(0, 0), Vector2f(800, 600), 3, Color::Red);
-	engine.draw(line);
-
-	Image circle = Engine::Primitives::getElipseImage(Vector2f(400, 300), Vector2f(200, 50), 3, Color::Green);
-	engine.draw(circle);
+	renderer.drawElipse(Point2D(400, 300), Point2D(100, 50), 10, Color::Green);
+	renderer.drawLine(Point2D(0, 0), Point2D(800, 600), 5, Color::Red);
 }
 
 int main()

@@ -1,5 +1,6 @@
 #pragma once 
 
+#include "Point2D.h"
 #include<iostream>
 #include<SFML/Graphics.hpp>
 
@@ -8,18 +9,9 @@ using namespace sf;
 
 class Engine
 {
-public:
-	static class Primitives
-	{
-	public:
-		static Image getLineImage(Vector2f start, Vector2f end, int thickess, Color color);
-		static Image getElipseImage(Vector2f center, Vector2f radius, int thickess, Color color);
-	};
-
-
 private:
-	bool isRunning = false;
 
+	bool isRunning = false;
 	int windowWidth = 800;
 	int windowHeight = 600;
 	String windowTitle = "";
