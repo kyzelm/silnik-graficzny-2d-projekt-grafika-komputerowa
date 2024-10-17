@@ -41,6 +41,9 @@ void gameRender()
 {
 	Image line = Engine::Primitives::getLineImage(Vector2f(0, 0), Vector2f(800, 600), 3, Color::Red);
 	engine.draw(line);
+
+	Image circle = Engine::Primitives::getElipseImage(Vector2f(400, 300), Vector2f(200, 50), 3, Color::Green);
+	engine.draw(circle);
 }
 
 int main()

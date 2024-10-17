@@ -13,6 +13,7 @@ public:
 	{
 	public:
 		static Image getLineImage(Vector2f start, Vector2f end, int thickess, Color color);
+		static Image getElipseImage(Vector2f center, Vector2f radius, int thickess, Color color);
 	};
 
 

@@ -1,5 +1,7 @@
 #include "Engine.h"
 
+#define PI 3.14159265358979323846
+
 Engine::Engine(int windowWidth = 800, int windowHeight = 600, String windowTitle = "", Uint32 windowStyle = Style::Default)
 {
 	this->windowWidth = windowWidth;
@@ -123,9 +125,12 @@ Image Engine::Primitives::getLineImage(Vector2f start, Vector2f end, int thickes
 		{
 			for (int i = 0; i < thickess; i++)
 			{
-				if ((ly + ((int)(i / 2) + 0.5) * pow(-1, i)) >= 0 && (ly + ((int)(i / 2) + 0.5) * pow(-1, i)) < image.getSize().y && lx >= 0 && lx < image.getSize().x)
+				for (int j = 0; j < thickess; j++)
 				{
-					image.setPixel(lx, (ly + ((int)(i / 2) + 0.5) * pow(-1, i)), color);
+					if ((lx + ((int)(i / 2) + 0.5) * pow(-1, i)) >= 0 && (lx + ((int)(i / 2) + 0.5) * pow(-1, i)) < image.getSize().x && (ly + ((int)(j / 2) + 0.5) * pow(-1, j)) >= 0 && (ly + ((int)(j / 2) + 0.5) * pow(-1, j)) < image.getSize().y)
+					{
+						image.setPixel((lx + ((int)(i / 2) + 0.5) * pow(-1, i)), (ly + ((int)(j / 2) + 0.5) * pow(-1, j)), color);
+					}
 				}
 			}
 			ly += ly < hy ? m : -m;
@@ -151,12 +156,45 @@ Image Engine::Primitives::getLineImage(Vector2f start, Vector2f end, int thickes
 		{
 			for (int i = 0; i < thickess; i++)
 			{
-				if ((lx + ((int)(i / 2) + 0.5) * pow(-1, i)) >= 0 && (lx + ((int)(i / 2) + 0.5) * pow(-1, i)) < image.getSize().x && ly >= 0 && ly < image.getSize().y)
+				for (int j = 0; j < thickess; j++)
 				{
-					image.setPixel((lx + ((int)(i / 2) + 0.5) * pow(-1, i)), ly, color);
+					if ((lx + ((int)(i / 2) + 0.5) * pow(-1, i)) >= 0 && (lx + ((int)(i / 2) + 0.5) * pow(-1, i)) < image.getSize().x && (ly + ((int)(j / 2) + 0.5) * pow(-1, j)) >= 0 && (ly + ((int)(j / 2) + 0.5) * pow(-1, j)) < image.getSize().y)
+					{
+						image.setPixel((lx + ((int)(i / 2) + 0.5) * pow(-1, i)), (ly + ((int)(j / 2) + 0.5) * pow(-1, j)), color);
+					}
 				}
 			}
 			lx += lx < hx ? 1 / m : -1 / m;
+		}
+	}
+
+	return image;
+}
+
+Image Engine::Primitives::getElipseImage(Vector2f center, Vector2f radius, int thickess, Color color)
+{
+	Image image;
+	image.create(VideoMode::getDesktopMode().width, VideoMode::getDesktopMode().height, Color::Transparent);
+
+	float step;
+	int x, y;
+
+	step = 1 / max(radius.x, radius.y);
+
+	for (float a = 0; a < 2 * PI; a += step)
+	{
+		x = center.x + (radius.x * cos(a)) + 0.5;
+		y = center.y + (radius.y * sin(a)) + 0.5;
+
+		for (int i = 0; i < thickess; i++)
+		{
+			for (int j = 0; j < thickess; j++)
+			{
+				if ((x + ((int)(i / 2) + 0.5) * pow(-1, i)) >= 0 && (x + ((int)(i / 2) + 0.5) * pow(-1, i)) < image.getSize().x && (y + ((int)(j / 2) + 0.5) * pow(-1, j)) >= 0 && (y + ((int)(j / 2) + 0.5) * pow(-1, j)) < image.getSize().y)
+				{
+					image.setPixel((x + ((int)(i / 2) + 0.5) * pow(-1, i)), (y + ((int)(j / 2) + 0.5) * pow(-1, j)), color);
+				}
+			}
 		}
 	}
 
