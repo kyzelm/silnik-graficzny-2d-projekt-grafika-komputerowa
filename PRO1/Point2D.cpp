@@ -4,14 +4,6 @@ Point2D::Point2D(float x, float y)
 {
 	this->x = x;
 	this->y = y;
-	this->color = Color::Black;
-}
-
-Point2D::Point2D(float x, float y, Color color)
-{
-	this->x = x;
-	this->y = y;
-	this->color = color;
 }
 
 void Point2D::setPoint(float x, float y)
@@ -20,9 +12,10 @@ void Point2D::setPoint(float x, float y)
 	this->y = y;
 }
 
-void Point2D::setPointColor(Color color)
+void Point2D::setPoint(Point2D point)
 {
-	this->color = color;
+	this->x = point.getX();
+	this->y = point.getY();
 }
 
 float Point2D::getX()
@@ -33,12 +26,4 @@ float Point2D::getX()
 float Point2D::getY()
 {
 	return y;
-}
-
-Image Point2D::getPointImage()
-{
-	Image pointImage;
-	pointImage.create(VideoMode::getDesktopMode().width, VideoMode::getDesktopMode().height, Color::Transparent);
-	pointImage.setPixel(this->x, this->y, this->color);
-	return pointImage;
 }

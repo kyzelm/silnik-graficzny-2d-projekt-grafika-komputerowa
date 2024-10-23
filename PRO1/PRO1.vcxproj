@@ -135,15 +135,19 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="DrawableObject.cpp" />
     <ClCompile Include="Engine.cpp" />
     <ClCompile Include="Point2D.cpp" />
-    <ClCompile Include="PrimitiveRenderer.cpp" />
+    <ClCompile Include="PrimitiveElipse.cpp" />
+    <ClCompile Include="PrimitiveLine.cpp" />
     <ClCompile Include="PRO1.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="DrawableObject.h" />
     <ClInclude Include="Engine.h" />
     <ClInclude Include="Point2D.h" />
-    <ClInclude Include="PrimitiveRenderer.h" />
+    <ClInclude Include="PrimitiveElipse.h" />
+    <ClInclude Include="PrimitiveLine.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
