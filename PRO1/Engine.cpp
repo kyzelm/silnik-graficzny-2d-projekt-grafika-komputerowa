@@ -91,3 +91,8 @@ void Engine::draw(Sprite sprite)
 {
 	this->window.draw(sprite);
 }
+
+Point2D Engine::getMouseConrds()
+{
+	return Point2D(Mouse::getPosition(this->window).x, Mouse::getPosition(this->window).y);
+}

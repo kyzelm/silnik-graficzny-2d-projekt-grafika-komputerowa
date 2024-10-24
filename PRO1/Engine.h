@@ -39,4 +39,6 @@ public:
 
 	void draw(Image image);
 	void draw(Sprite sprite);
+
+	Point2D getMouseConrds();
 };
