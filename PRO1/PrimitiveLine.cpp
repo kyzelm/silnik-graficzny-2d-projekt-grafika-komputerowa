@@ -9,7 +9,7 @@ void PrimitiveLine::drawFunction()
 	float dy = abs(end.getY() - start.getY()) + thickness;
 
 	this->objectImage.create(dx, dy, Color::Transparent);
-	this->drawLine(start, end, thickness, color);
+	this->drawLine(start, end, thickness, color, Point2D(0, 0));
 
 	this->spriteX = (start.getX() < end.getX() ? start.getX() : end.getX()) - thickness / 2 + this->xModerator;
 	this->spriteY = (start.getY() < end.getY() ? start.getY() : end.getY()) - thickness / 2 + this->yModerator;

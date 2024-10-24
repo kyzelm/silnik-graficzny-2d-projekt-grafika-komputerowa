@@ -8,7 +8,7 @@ void DrawableObject::drawFunction()
 	cout << "This is a virtual function" << endl;
 }
 
-void DrawableObject::drawLine(Point2D start, Point2D end, int thickess, Color color)
+void DrawableObject::drawLine(Point2D start, Point2D end, int thickess, Color color, Point2D relativeValue)
 {
 	float dx = end.getX() - start.getX();
 	float dy = end.getY() - start.getY();
@@ -37,13 +37,19 @@ void DrawableObject::drawLine(Point2D start, Point2D end, int thickess, Color co
 
 				if (m < 1)
 				{
+					a += (start.getX() < end.getX() ? start.getX() : end.getX()) - relativeValue.getX();
+					b += (start.getY() < end.getY() ? start.getY() : end.getY()) - relativeValue.getY();
+
 					if (a >= 0 && a <= this->objectImage.getSize().x && b >= 0 && b <= this->objectImage.getSize().y)
 					{
 						this->objectImage.setPixel(a, b, color);
 					}
 				}
 				else {
-					if (a >= 0 && b <= this->objectImage.getSize().x && a >= 0 && a <= this->objectImage.getSize().y)
+					a += (start.getY() < end.getY() ? start.getY() : end.getY()) - relativeValue.getY();
+					b += (start.getX() < end.getX() ? start.getX() : end.getX()) - relativeValue.getX();
+
+					if (a >= 0 && b < this->objectImage.getSize().x && a >= 0 && a < this->objectImage.getSize().y)
 					{
 						this->objectImage.setPixel(b, a, color);
 					}

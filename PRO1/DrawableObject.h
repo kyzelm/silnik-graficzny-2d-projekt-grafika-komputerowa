@@ -23,7 +23,7 @@ protected:
 
 	virtual void drawFunction();
 
-	void drawLine(Point2D start, Point2D end, int thickess, Color color);
+	void drawLine(Point2D start, Point2D end, int thickess, Color color, Point2D relativeValue);
 
 public:
 	DrawableObject(Engine* engine);

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -140,6 +140,7 @@
     <ClCompile Include="Point2D.cpp" />
     <ClCompile Include="PrimitiveElipse.cpp" />
     <ClCompile Include="PrimitiveLine.cpp" />
+    <ClCompile Include="PrimitiveShape.cpp" />
     <ClCompile Include="PRO1.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -148,6 +149,7 @@
     <ClInclude Include="Point2D.h" />
     <ClInclude Include="PrimitiveElipse.h" />
     <ClInclude Include="PrimitiveLine.h" />
+    <ClInclude Include="PrimitiveShape.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
