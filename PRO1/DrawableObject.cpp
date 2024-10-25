@@ -1,22 +1,18 @@
 #include "DrawableObject.h"
 #include <iostream>
+#include <stack>
 
 using namespace std;
 
-void DrawableObject::drawFunction()
-{
-	cout << "This is a virtual function" << endl;
-}
-
 void DrawableObject::drawLine(Point2D start, Point2D end, int thickess, Color color, Point2D relativeValue)
 {
-	float dx = end.getX() - start.getX();
-	float dy = end.getY() - start.getY();
+	int dx = end.getX() - start.getX();
+	int dy = end.getY() - start.getY();
 
-	float absDx = abs(dx);
-	float absDy = abs(dy);
+	int absDx = abs(dx);
+	int absDy = abs(dy);
 
-	float m = absDy / absDx;
+	float m = (float)absDy / (float)absDx;
 
 	float printer = thickess / 2;
 	if ((dx < 0 && dy > 0) || (dx > 0 && dy < 0))
@@ -40,18 +36,18 @@ void DrawableObject::drawLine(Point2D start, Point2D end, int thickess, Color co
 					a += (start.getX() < end.getX() ? start.getX() : end.getX()) - relativeValue.getX();
 					b += (start.getY() < end.getY() ? start.getY() : end.getY()) - relativeValue.getY();
 
-					if (a >= 0 && a <= this->objectImage.getSize().x && b >= 0 && b <= this->objectImage.getSize().y)
+					if (a >= 0 && a < this->objectImage.getSize().x && b >= 0 && b < this->objectImage.getSize().y)
 					{
-						this->objectImage.setPixel(a, b, color);
+						this->imageMatrix[a][b] = Border;
 					}
 				}
 				else {
 					a += (start.getY() < end.getY() ? start.getY() : end.getY()) - relativeValue.getY();
 					b += (start.getX() < end.getX() ? start.getX() : end.getX()) - relativeValue.getX();
 
-					if (a >= 0 && b < this->objectImage.getSize().x && a >= 0 && a < this->objectImage.getSize().y)
+					if (b >= 0 && b < this->objectImage.getSize().x && a >= 0 && a < this->objectImage.getSize().y)
 					{
-						this->objectImage.setPixel(b, a, color);
+						this->imageMatrix[b][a] = Border;
 					}
 				}
 			}
@@ -71,24 +67,56 @@ void DrawableObject::drawLine(Point2D start, Point2D end, int thickess, Color co
 DrawableObject::DrawableObject(Engine* engine)
 {
 	this->engine = engine;
-	this->objectImage.create(1, 1, Color::Transparent);
+
+	this->matrixWidth = engine->getWindowWidth();
+	this->matrixHeight = engine->getWindowHeight();
+	this->imageMatrix = new ObjectFillType * [this->matrixWidth];
+	for (int i = 0; i < this->matrixWidth; ++i) {
+		this->imageMatrix[i] = new ObjectFillType[this->matrixHeight];
+	}
+
+	this->objectImage.create(this->matrixWidth, this->matrixHeight, Color::Transparent);
 }
 
 void DrawableObject::drawImage()
 {
-	this->drawFunction();
+
+	for (int i = 0; i < this->matrixWidth; i++)
+	{
+		for (int j = 0; j < this->matrixHeight; j++)
+		{
+			int x = this->transformationMatrix[0][0] * i + this->transformationMatrix[0][1] * j + this->transformationMatrix[0][2];
+			int y = this->transformationMatrix[1][0] * i + this->transformationMatrix[1][1] * j + this->transformationMatrix[1][2];
+
+			if (x >= 0 && x < this->objectImage.getSize().x && y >= 0 && y < this->objectImage.getSize().y) {
+				if (this->imageMatrix[i][j] == Fill || this->fillColor != Color::Transparent)
+				{
+					this->objectImage.setPixel(x, y, this->fillColor);
+				}
+				else if (this->imageMatrix[i][j] == Border)
+				{
+					this->objectImage.setPixel(x, y, this->color);
+				}
+			}
+		}
+	}
 
 	Texture texture;
 	texture.loadFromImage(this->objectImage);
 
 	Sprite sprite(texture);
-	sprite.setPosition(this->spriteX, this->spriteY);
-	
+	sprite.setPosition(0, 0);
+
 	this->engine->draw(sprite);
+}
+
+void DrawableObject::fill(Color color)
+{
+	this->fillColor = color;
 }
 
 void DrawableObject::move(Point2D vector)
 {
-	this->xModerator += vector.getX();
-	this->yModerator += vector.getY();
+	this->transformationMatrix[0][2] += vector.getX();
+	this->transformationMatrix[1][2] += vector.getY();
 }

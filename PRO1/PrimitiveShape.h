@@ -11,9 +11,6 @@ private:
 	vector<Point2D> points;
 	bool isClosed;
 
-protected:
-	void drawFunction() override;
-
 public:
 	PrimitiveShape(Engine* engine, vector<Point2D> points, bool isClosed, int thickness, Color color);
 };

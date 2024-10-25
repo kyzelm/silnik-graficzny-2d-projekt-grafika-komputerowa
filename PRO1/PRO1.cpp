@@ -14,9 +14,8 @@ bool isLeft = false;
 bool isRight = false;
 
 Engine engine(800, 600, "SFML Engine", Style::Default);
-PrimitiveLine line(&engine, Point2D(0, 0), Point2D(800, 600), 5, Color::Red);
-PrimitiveElipse elipse(&engine, Point2D(400, 300), Point2D(100, 100), 5, Color::Blue);
-PrimitiveShape shape(&engine, { Point2D(400, 100), Point2D(500, 50), Point2D(450, 150), Point2D(350, 150), Point2D(300, 50)}, true, 5, Color::Green);
+PrimitiveLine line(&engine, Point2D(0, 600), Point2D(800, 0), 5, Color::Blue);
+PrimitiveLine line2(&engine, Point2D(0, 0), Point2D(800, 600), 5, Color::Red);
 
 void gameEventHandler(Event event)
 {
@@ -77,7 +76,6 @@ void gameEventHandler(Event event)
 
 	if (event.type == Event::MouseMoved)
 	{
-		cout << "x: " << engine.getMouseConrds().getX() << " y: " << engine.getMouseConrds().getY() << endl;
 	}
 
 	if (event.type == Event::MouseWheelMoved)
@@ -88,15 +86,13 @@ void gameEventHandler(Event event)
 void gameUpdate()
 {
 	line.move(Point2D(isRight - isLeft, isDown - isUp));
-	elipse.move(Point2D(isRight - isLeft, isDown - isUp));
-	shape.move(Point2D(isRight - isLeft, isDown - isUp));
+	line2.move(Point2D(isRight - isLeft, isDown - isUp));
 }
 
 void gameRender()
 {
 	line.drawImage();
-	elipse.drawImage();
-	shape.drawImage();
+	line2.drawImage();
 }
 
 int main()

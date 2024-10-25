@@ -37,8 +37,9 @@ public:
 	void start();
 	void stop();
 
-	void draw(Image image);
 	void draw(Sprite sprite);
 
+	int getWindowWidth();
+	int getWindowHeight();
 	Point2D getMouseConrds();
 };

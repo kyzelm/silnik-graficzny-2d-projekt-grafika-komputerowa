@@ -6,28 +6,35 @@
 
 using namespace sf;
 
+enum ObjectFillType
+{
+	NoFill,
+	Fill,
+	Border
+};
+
 class DrawableObject
 {
 protected:
 	Engine* engine;
 
 	Image objectImage;
-	int spriteX = 0;
-	int spriteY = 0;
 
-	int thickness = 0;
 	Color color = Color::Black;
+	Color fillColor = Color::Transparent;
 
-	float xModerator = 0;
-	float yModerator = 0;
+	int matrixWidth;
+	int matrixHeight;
+	ObjectFillType** imageMatrix = nullptr;
 
-	virtual void drawFunction();
+	float transformationMatrix[3][3] = { {1, 0, 0}, {0, 1, 0}, {0, 0, 1} };
 
 	void drawLine(Point2D start, Point2D end, int thickess, Color color, Point2D relativeValue);
 
 public:
 	DrawableObject(Engine* engine);
 	void drawImage();
+	void fill(Color color);
 	void move(Point2D vector);
 };
 

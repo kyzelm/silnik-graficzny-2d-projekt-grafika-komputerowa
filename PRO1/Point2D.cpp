@@ -1,12 +1,12 @@
 #include "Point2D.h"
 
-Point2D::Point2D(float x, float y)
+Point2D::Point2D(int x, int y)
 {
 	this->x = x;
 	this->y = y;
 }
 
-void Point2D::setPoint(float x, float y)
+void Point2D::setPoint(int x, int y)
 {
 	this->x = x;
 	this->y = y;
@@ -18,12 +18,12 @@ void Point2D::setPoint(Point2D point)
 	this->y = point.getY();
 }
 
-float Point2D::getX()
+int Point2D::getX()
 {
 	return x;
 }
 
-float Point2D::getY()
+int Point2D::getY()
 {
 	return y;
 }

@@ -7,12 +7,12 @@ using namespace sf;
 class Point2D
 {
 private:
-	float x, y;
+	int x, y;
 
 public:
-	Point2D(float x, float y);
-	void setPoint(float x, float y);
+	Point2D(int x, int y);
+	void setPoint(int x, int y);
 	void setPoint(Point2D point);
-	float getX();
-	float getY();
+	int getX();
+	int getY();
 };

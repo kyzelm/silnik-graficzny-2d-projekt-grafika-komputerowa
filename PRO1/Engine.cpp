@@ -75,21 +75,19 @@ void Engine::stop()
 	this->isRunning = false;
 }
 
-void Engine::draw(Image image)
-{
-	Texture texture;
-	texture.loadFromImage(image);
-
-	Sprite sprite(texture);
-	sprite.setPosition(0, 0);
-
-	this->window.draw(sprite);
-
-}
-
 void Engine::draw(Sprite sprite)
 {
 	this->window.draw(sprite);
+}
+
+int Engine::getWindowWidth()
+{
+	return this->windowWidth;
+}
+
+int Engine::getWindowHeight()
+{
+	return this->windowHeight;
 }
 
 Point2D Engine::getMouseConrds()
