@@ -10,5 +10,6 @@ private:
 
 public:
 	PrimitiveElipse(Engine* engine, Point2D center, Point2D radius, int thickness, Color color);
+	void update() override;
 };
 

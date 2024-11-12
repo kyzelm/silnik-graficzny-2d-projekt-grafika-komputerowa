@@ -38,5 +38,8 @@ PrimitiveElipse::PrimitiveElipse(Engine* engine, Point2D center, Point2D radius,
 	this->center.setPoint(center);
 	this->radius.setPoint(radius);
 	this->color = color;
-	this->fillColor = Color::Yellow;
+}
+
+void PrimitiveElipse::update()
+{
 }

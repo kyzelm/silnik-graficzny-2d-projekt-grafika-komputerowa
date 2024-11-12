@@ -24,9 +24,14 @@ private:
 	void (*gameUpdate)() = nullptr;
 	void (*gameRender)() = nullptr;
 
+	Texture screenTexture;
+	Sprite screenSprite;
+
 	RenderWindow window;
 	Event event;
+
 public:
+	vector<Uint8> matrix;
 
 	Engine(int windowWidth, int windowHeight, String windowTitle, Uint32 windowStyle);
 
@@ -37,9 +42,9 @@ public:
 	void start();
 	void stop();
 
-	void draw(Sprite sprite);
+	int getMatrixWidth();
+	int getMatrixHeight();
 
-	int getWindowWidth();
-	int getWindowHeight();
 	Point2D getMouseConrds();
+
 };

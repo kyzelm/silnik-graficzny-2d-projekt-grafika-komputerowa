@@ -6,6 +6,10 @@ Engine::Engine(int windowWidth = 800, int windowHeight = 600, String windowTitle
 	this->windowHeight = windowHeight;
 	this->windowTitle = windowTitle;
 	this->windowStyle = windowStyle;
+	this->matrix = vector<Uint8>(windowWidth * windowHeight * 4);
+	this->screenTexture.create(windowWidth, windowHeight);
+	this->screenSprite.setTexture(this->screenTexture);
+	this->screenSprite.setPosition(0, 0);
 }
 
 void Engine::setBackgroundColor(Color color)
@@ -29,7 +33,7 @@ void Engine::start()
 {
 	if (this->gameEventHandler == nullptr || this->gameUpdate == nullptr || this->gameRender == nullptr)
 	{
-		cout << "Error: gameEventHandler, gameUpdate, or gameRender is not set." << endl;
+		cout << "Error: gameEventHandler, gameUpdate, or scenes are not set." << endl;
 		return;
 	}
 
@@ -61,9 +65,12 @@ void Engine::start()
 		{
 			this->gameUpdate();
 
-			window.clear(backgroundColor);
+			this->window.clear(backgroundColor);
+			this->matrix = vector<Uint8>(this->windowWidth * this->windowHeight * 4);
 			this->gameRender();
-			window.display();
+			this->screenTexture.update(this->matrix.data());
+			this->window.draw(this->screenSprite);
+			this->window.display();
 
 			lag -= this->msPerFrame;
 		}
@@ -75,17 +82,12 @@ void Engine::stop()
 	this->isRunning = false;
 }
 
-void Engine::draw(Sprite sprite)
-{
-	this->window.draw(sprite);
-}
-
-int Engine::getWindowWidth()
+int Engine::getMatrixWidth()
 {
 	return this->windowWidth;
 }
 
-int Engine::getWindowHeight()
+int Engine::getMatrixHeight()
 {
 	return this->windowHeight;
 }

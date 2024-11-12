@@ -13,5 +13,6 @@ private:
 
 public:
 	PrimitiveShape(Engine* engine, vector<Point2D> points, bool isClosed, int thickness, Color color);
+	void update() override;
 };
 
