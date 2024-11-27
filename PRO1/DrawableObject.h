@@ -11,16 +11,22 @@ using namespace sf;
 class DrawableObject
 {
 protected:
-	vector<Uint8>* windowMatrix;
+	Engine* engine;
 	int matrixWidth;
 	int matrixHeight;
 
+	Point2D center = Point2D(0, 0);
+
 	int thickness = 1;
+	int scaleFactor = 1;
 	Color color = Color::Black;
 	Color fillColor = Color::Transparent;
 
 	vector<Uint8> matrix;
 	float transformationMatrix[3][3] = { {1, 0, 0}, {0, 1, 0}, {0, 0, 1} };
+
+	Texture texture;
+	Sprite sprite;
 
 	void drawLine(Point2D start, Point2D end, int thickess, Color color);
 	void multiplyMatrix(float matrix[3][3]);

@@ -106,10 +106,13 @@ void DrawableObject::multiplyMatrix(float matrix[3][3])
 
 DrawableObject::DrawableObject(Engine* engine)
 {
-	this->windowMatrix = &engine->matrix;
+	this->engine = engine;
 	this->matrixWidth = engine->getMatrixWidth();
 	this->matrixHeight = engine->getMatrixHeight();
 	this->matrix = vector<Uint8>(this->matrixWidth * this->matrixHeight * 4);
+	this->texture.create(this->matrixWidth, this->matrixHeight);
+	this->sprite.setTexture(this->texture);
+	this->sprite.setPosition(0, 0);
 }
 
 void DrawableObject::update()
@@ -119,19 +122,7 @@ void DrawableObject::update()
 
 void DrawableObject::draw()
 {
-	for (int i = 3; i < (*this->windowMatrix).size(); i = i + 4)
-	{
-		if (this->matrix[i] != 0)
-		{
-			if ((*this->windowMatrix)[i] == 0)
-			{
-				(*this->windowMatrix)[i - 3] = this->matrix[i - 3];
-				(*this->windowMatrix)[i - 2] = this->matrix[i - 2];
-				(*this->windowMatrix)[i - 1] = this->matrix[i - 1];
-				(*this->windowMatrix)[i] = this->matrix[i];
-			}
-		}
-	}
+	this->engine->window.draw(this->sprite);
 }
 
 void DrawableObject::fill(Color color)
@@ -149,13 +140,17 @@ void DrawableObject::move(Point2D vector)
 void DrawableObject::rotate(float angle)
 {
 	float radian = angle * 3.14159265359 / 180;
+	this->multiplyMatrix(new float[3][3]{ {1, 0, (float)this->center.getX()}, {0, 1, (float)this->center.getY()}, {0, 0, 1} });
 	this->multiplyMatrix(new float[3][3]{ {cos(radian), -sin(radian), 0}, {sin(radian), cos(radian), 0}, {0, 0, 1} });
+	this->multiplyMatrix(new float[3][3]{ {1, 0, (float)-this->center.getX()}, {0, 1, (float)-this->center.getY()}, {0, 0, 1} });
 	this->update();
 }
 
 void DrawableObject::scale(float factor)
 {
+	this->multiplyMatrix(new float[3][3]{ {1, 0, (float)this->center.getX()}, {0, 1, (float)this->center.getY()}, {0, 0, 1} });
 	this->multiplyMatrix(new float[3][3]{ {factor, 0, 0}, {0, factor, 0}, {0, 0, 1} });
+	this->multiplyMatrix(new float[3][3]{ {1, 0, (float)-this->center.getX()}, {0, 1, (float)-this->center.getY()}, {0, 0, 1} });
 	this->update();
 }
 

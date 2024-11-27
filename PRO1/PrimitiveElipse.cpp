@@ -38,8 +38,43 @@ PrimitiveElipse::PrimitiveElipse(Engine* engine, Point2D center, Point2D radius,
 	this->center.setPoint(center);
 	this->radius.setPoint(radius);
 	this->color = color;
+	this->thickness = thickness;
+
+	this->update();
 }
 
 void PrimitiveElipse::update()
 {
+	this->matrix = vector<Uint8>(this->matrixWidth * this->matrixHeight * 4);
+
+	float step;
+	int x, y;
+
+	step = 1 / (float)max(radius.getX(), radius.getY());
+
+	for (float a = 0; a < 2 * PI; a += step)
+	{
+		x = this->thickness / 2 + (radius.getX() * cos(a)) + 0.5 + this->center.getX();
+		y = this->thickness / 2 + (radius.getY() * sin(a)) + 0.5 + this->center.getY();
+
+		x = x * this->transformationMatrix[0][0] + y * this->transformationMatrix[0][1] + this->transformationMatrix[0][2];
+		y = x * this->transformationMatrix[1][0] + y * this->transformationMatrix[1][1] + this->transformationMatrix[1][2];
+
+		for (int i = 0; i < this->thickness; i++)
+		{
+			for (int j = 0; j < this->thickness; j++)
+			{
+				int xPoint = x + ((int)(i / 2) + 0.5) * pow(-1, i);
+				int yPoint = y + ((int)(j / 2) + 0.5) * pow(-1, j);
+
+				if (xPoint >= 0 && xPoint < this->matrixWidth && yPoint >= 0 && yPoint < this->matrixHeight)
+				{
+					this->matrix[(xPoint + yPoint * this->matrixWidth) * 4] = this->color.r;
+					this->matrix[(xPoint + yPoint * this->matrixWidth) * 4 + 1] = this->color.g;
+					this->matrix[(xPoint + yPoint * this->matrixWidth) * 4 + 2] = this->color.b;
+					this->matrix[(xPoint + yPoint * this->matrixWidth) * 4 + 3] = this->color.a;
+				}
+			}
+		}
+	}
 }

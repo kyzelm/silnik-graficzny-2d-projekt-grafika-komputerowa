@@ -6,10 +6,6 @@ Engine::Engine(int windowWidth = 800, int windowHeight = 600, String windowTitle
 	this->windowHeight = windowHeight;
 	this->windowTitle = windowTitle;
 	this->windowStyle = windowStyle;
-	this->matrix = vector<Uint8>(windowWidth * windowHeight * 4);
-	this->screenTexture.create(windowWidth, windowHeight);
-	this->screenSprite.setTexture(this->screenTexture);
-	this->screenSprite.setPosition(0, 0);
 }
 
 void Engine::setBackgroundColor(Color color)
@@ -66,10 +62,7 @@ void Engine::start()
 			this->gameUpdate();
 
 			this->window.clear(backgroundColor);
-			this->matrix = vector<Uint8>(this->windowWidth * this->windowHeight * 4);
 			this->gameRender();
-			this->screenTexture.update(this->matrix.data());
-			this->window.draw(this->screenSprite);
 			this->window.display();
 
 			lag -= this->msPerFrame;

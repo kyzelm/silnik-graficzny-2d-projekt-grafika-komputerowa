@@ -24,15 +24,11 @@ private:
 	void (*gameUpdate)() = nullptr;
 	void (*gameRender)() = nullptr;
 
-	Texture screenTexture;
-	Sprite screenSprite;
-
-	RenderWindow window;
 	Event event;
 
 public:
-	vector<Uint8> matrix;
-
+	RenderWindow window;
+	
 	Engine(int windowWidth, int windowHeight, String windowTitle, Uint32 windowStyle);
 
 	void setBackgroundColor(Color color);

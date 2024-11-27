@@ -14,7 +14,7 @@ bool isLeft = false;
 bool isRight = false;
 
 Engine engine(800, 600, "SFML Engine", Style::Default);
-PrimitiveShape shape(&engine, { Point2D(100, 100), Point2D(200, 200), Point2D(300, 100), Point2D(200, 50) }, true, 5, Color::Red);
+PrimitiveShape line(&engine, {Point2D(0, 0), Point2D(100, 0), Point2D(100, 100), Point2D(0, 100)}, true, 5, Color::Black);
 
 void gameEventHandler(Event event)
 {
@@ -43,22 +43,22 @@ void gameEventHandler(Event event)
 
 		if (event.key.code == Keyboard::A)
 		{
-			shape.rotate(-5);
+			line.rotate(-5);
 		}
 
 		if (event.key.code == Keyboard::D)
 		{
-			shape.rotate(5);
+			line.rotate(5);
 		}
 
 		if (event.key.code == Keyboard::W)
 		{
-			shape.scale(1.01);
+			line.scale(1.01);
 		}
 
 		if (event.key.code == Keyboard::S)
 		{
-			shape.scale(0.99);
+			line.scale(0.99);
 		}
 	}
 
@@ -104,12 +104,12 @@ void gameEventHandler(Event event)
 
 void gameUpdate()
 {
-	shape.move(Point2D(isRight - isLeft, isDown - isUp));
+	line.move(Point2D(isRight - isLeft, isDown - isUp));
 }
 
 void gameRender()
 {
-	shape.draw();
+	line.draw();
 }
 
 int main()
