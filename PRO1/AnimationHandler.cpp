@@ -1,6 +1,21 @@
+/*****************************************************************//**
+ * \file   AnimationHandler.h
+ * \brief  Class that handles animations sheets
+ *********************************************************************/
 #include "AnimationHandler.h"
 #include "DrawableObject.h"
 
+/**
+ * \brief Construct a new AnimationHandler
+ * 
+ * Construct a new AnimationHandler object with given spite sheet.
+ * 
+ * \param engine - pointer to the engine
+ * \param framesPaths - map of frames paths with names
+ * \param dimensions - dimensions of the frame
+ * \param start - start point of the animation
+ * \param frameCount - number of frames by one step
+ */
 AnimationHandler::AnimationHandler(Engine* engine, map<string, string> framesPaths, Point2D dimensions, Point2D start, int frameCount) : DrawableObject(engine)
 {
 	this->isTransformable = false;
@@ -42,6 +57,11 @@ AnimationHandler::AnimationHandler(Engine* engine, map<string, string> framesPat
 	this->update();
 }
 
+/**
+ * \brief Update the animation
+ * 
+ * Function that updates the animation matrix based on actual frame number. 
+ */
 void AnimationHandler::update()
 {
 	this->matrix = vector<Uint8>(this->matrixWidth * this->matrixHeight * 4, 0);
@@ -73,6 +93,11 @@ void AnimationHandler::update()
 
 }
 
+/**
+ * \brief Step the animation
+ * 
+ * Function that steps the animation to the next frame.
+ */
 void AnimationHandler::step()
 {
 	this->frameCounter++;
@@ -92,6 +117,11 @@ void AnimationHandler::step()
 
 }
 
+/**
+ * \brief Set the frame set
+ * 
+ * \param name - name of the frame set
+ */
 void AnimationHandler::setFrameSet(string name)
 {
 	this->currentFrameSet = name;

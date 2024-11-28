@@ -1,6 +1,19 @@
+/*****************************************************************//**
+ * \file   ImageHandler.cpp
+ * \brief  Class that handles the image and its matrix
+ *********************************************************************/
 #include "ImageHandler.h"
 #include "DrawableObject.h"
 
+/**
+ * \brief Construct a new Image Handler
+ * 
+ * Construct a new Image Handler object based on the given path
+ * 
+ * \param engine - pointer to the engine
+ * \param path - path to the image
+ * \param start - starting point of the image
+ */
 ImageHandler::ImageHandler(Engine* engine, string path, Point2D start) : DrawableObject(engine)
 {
 	this->isTransformable = false;
@@ -26,6 +39,11 @@ ImageHandler::ImageHandler(Engine* engine, string path, Point2D start) : Drawabl
 	this->update();
 }
 
+/**
+ * \brief Update the image output matrix
+ *
+ * Function that updates the image matrix based on the transformation matrix.
+ */
 void ImageHandler::update()
 {
 	this->matrix = vector<Uint8>(this->matrixWidth * this->matrixHeight * 4, 0);
@@ -60,11 +78,23 @@ void ImageHandler::update()
 	this->texture.update(this->matrix.data());
 }
 
+/**
+ * \brief Set new image matrix
+ * 
+ * Function that sets new image matrix based on the given matrix
+ * 
+ * \param baseMatrix - new image matrix
+ */
 void ImageHandler::loadBaseMatrix(vector<Uint8> baseMatrix)
 {
 	this->baseMatrix = baseMatrix;
 }
 
+/**
+ * \brief Get the base matrix
+ * 
+ * \return base matrix - the base matrix of the image
+ */
 vector<Uint8> ImageHandler::getBaseMatrix()
 {
 	return this->baseMatrix;

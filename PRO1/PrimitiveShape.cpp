@@ -1,6 +1,21 @@
+/*****************************************************************//**
+ * \file   PrimitiveShape.h
+ * \brief  Class that represents a primitive shape.
+ *********************************************************************/
 #include "PrimitiveShape.h"
 #include <vector>
 
+/**
+ * \brief Construct a new Primitive Shape object
+ * 
+ * Constructor of the PrimitiveShape class based on a list of points, a boolean that indicates if the shape is closed, a thickness and a color.
+ * 
+ * \param engine - Engine where the object will be drawn.
+ * \param points - List of points that define the shape.
+ * \param isClosed - Boolean that indicates if the shape is closed.
+ * \param thickness - Thickness of the shape.
+ * \param color - Color of the shape.
+ */
 PrimitiveShape::PrimitiveShape(Engine* engine, vector<Point2D> points, bool isClosed, int thickness, Color color) : DrawableObject(engine)
 {
 	this->points = points;
@@ -22,6 +37,11 @@ PrimitiveShape::PrimitiveShape(Engine* engine, vector<Point2D> points, bool isCl
 	this->update();
 }
 
+/**
+ * \brief Update the shape output matrix.
+ * 
+ * Function that updates the output matrix of the shape based on the points, thickness, color and fill color.
+ */
 void PrimitiveShape::update()
 {
 	this->matrix = vector<Uint8>(this->matrixWidth * this->matrixHeight * 4);

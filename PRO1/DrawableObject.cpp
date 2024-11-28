@@ -1,9 +1,24 @@
+/*****************************************************************//**
+ * \file   DrawableObject.cpp
+ * \brief  Main class for drawable objects
+ *********************************************************************/
+
 #include "DrawableObject.h"
 #include <iostream>
 #include <stack>
 
 using namespace std;
 
+/**
+ * \brief Draws a line between two points
+ * 
+ * Function draws a line between two points with given thickness and color, include transformation matrix.
+ * 
+ * \param start - first point of the line
+ * \param end - second point of the line
+ * \param thickess - thickness of the line
+ * \param color - color of the line
+ */
 void DrawableObject::drawLine(Point2D start, Point2D end, int thickess, Color color)
 {
 	int startX = start.getX() * this->transformationMatrix[0][0] + start.getY() * this->transformationMatrix[0][1] + this->transformationMatrix[0][2];
@@ -81,6 +96,13 @@ void DrawableObject::drawLine(Point2D start, Point2D end, int thickess, Color co
 	}
 }
 
+/**
+ * \brief Multiplies two matrices
+ * 
+ * Function multiplies two matrices and saves the result in the object matrix, created for connection of transformation matrices.
+ * 
+ * \param matrix - matrix to multiply
+ */
 void DrawableObject::multiplyMatrix(float matrix[3][3])
 {
 	float result[3][3] = { {0, 0, 0}, {0, 0, 0}, {0, 0, 0} };
@@ -105,6 +127,14 @@ void DrawableObject::multiplyMatrix(float matrix[3][3])
 	}
 }
 
+/**
+ * \brief Fills the object with color
+ * 
+ * Algorithm for filling the object with color using stack.
+ * 
+ * \param x - x coordinate of starting point
+ * \param y - y coordinate of starting point
+ */
 void DrawableObject::fillAlgorithm(int x, int y)
 {
 	stack<pair<int, int>> stack;
@@ -139,6 +169,13 @@ void DrawableObject::fillAlgorithm(int x, int y)
 	}
 }
 
+/**
+ * \brief Constructor of the DrawableObject
+ * 
+ * Constructor of the DrawableObject, sets the engine, creates the matrix, texture and sprite.
+ * 
+ * \param engine - pointer to the main engine
+ */
 DrawableObject::DrawableObject(Engine* engine)
 {
 	this->engine = engine;
@@ -150,28 +187,59 @@ DrawableObject::DrawableObject(Engine* engine)
 	this->sprite.setPosition(0, 0);
 }
 
+/**
+ * \brief Updates the object
+ *
+ * Function is called every frame, should be overriden in the object matrix.
+ */
 void DrawableObject::update()
 {
 	cout << "Error: update function is not set." << endl;
 }
 
+/**
+ * \brief Draws the object
+ *
+ * Function draws the object on the screen.
+ */
 void DrawableObject::draw()
 {
 	this->engine->window.draw(this->sprite);
 }
 
+/**
+ * \brief Fills the object with color
+ *
+ * Function changes the fill color of the object.
+ *
+ * \param color - color to fill the object with
+ */
 void DrawableObject::fill(Color color)
 {
 	this->fillColor = color;
 	this->update();
 }
 
+/**
+ * \brief Moves the object
+ *
+ * Function moves the object by given vector.
+ *
+ * \param vector - vector to move the object by
+ */
 void DrawableObject::move(Point2D vector)
 {
 	this->multiplyMatrix(new float[3][3]{ {1, 0, (float)vector.getX()}, {0, 1, (float)vector.getY()}, {0, 0, 1} });
 	this->update();
 }
 
+/**
+ * \brief Rotates the object
+ *
+ * Function rotates the object by given angle.
+ *
+ * \param angle - angle to rotate the object by
+ */
 void DrawableObject::rotate(float angle)
 {
 	if (this->isTransformable == false) return;
@@ -183,6 +251,13 @@ void DrawableObject::rotate(float angle)
 	this->update();
 }
 
+/**
+ * \brief Scales the object
+ *
+ * Function scales the object by given factor.
+ *
+ * \param factor - factor to scale the object by
+ */
 void DrawableObject::scale(float factor)
 {
 	if (this->isTransformable == false) return;
@@ -190,17 +265,5 @@ void DrawableObject::scale(float factor)
 	this->multiplyMatrix(new float[3][3]{ {1, 0, (float)this->center.getX()}, {0, 1, (float)this->center.getY()}, {0, 0, 1} });
 	this->multiplyMatrix(new float[3][3]{ {factor, 0, 0}, {0, factor, 0}, {0, 0, 1} });
 	this->multiplyMatrix(new float[3][3]{ {1, 0, (float)-this->center.getX()}, {0, 1, (float)-this->center.getY()}, {0, 0, 1} });
-	this->update();
-}
-
-void DrawableObject::leanX(float factor)
-{
-	this->multiplyMatrix(new float[3][3]{ {1, factor, 0}, {0, 1, 0}, {0, 0, 1} });
-	this->update();
-}
-
-void DrawableObject::leanY(float factor)
-{
-	this->multiplyMatrix(new float[3][3]{ {1, 0, 0}, {factor, 1, 0}, {0, 0, 1} });
 	this->update();
 }

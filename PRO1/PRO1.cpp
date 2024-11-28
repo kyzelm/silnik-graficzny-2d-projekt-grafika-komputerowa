@@ -21,6 +21,7 @@ AnimationHandler animation(&engine, {
 	{"shape", "shapeAnim.png"}
 	}, Point2D(128, 128), Point2D(400, 300), 30);
 PrimitiveShape shape(&engine, { Point2D(0, 0), Point2D(100, 0), Point2D(100, 100), Point2D(0, 100) }, true, 10, Color::Red);
+PrimitiveLine line(&engine, Point2D(0, 0), Point2D(100, 100), 5, Color::Blue);
 
 void gameEventHandler(Event event)
 {
@@ -126,8 +127,9 @@ void gameUpdate()
 
 void gameRender()
 {
-	animation.draw();
+	//animation.draw();
 	shape.draw();
+	//line.draw();
 }
 
 int main()
