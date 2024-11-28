@@ -77,4 +77,13 @@ void PrimitiveElipse::update()
 			}
 		}
 	}
+
+	if (this->fillColor != Color::Transparent)
+	{
+		int x = this->center.getX() * this->transformationMatrix[0][0] + this->center.getY() * this->transformationMatrix[0][1] + this->transformationMatrix[0][2];
+		int y = this->center.getX() * this->transformationMatrix[1][0] + this->center.getY() * this->transformationMatrix[1][1] + this->transformationMatrix[1][2];
+
+		this->fillAlgorithm(x, y);
+	}
+	this->texture.update(this->matrix.data());
 }

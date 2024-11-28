@@ -3,6 +3,8 @@
 #include "PrimitiveLine.h"
 #include "PrimitiveElipse.h"
 #include "PrimitiveShape.h"
+#include "ImageHandler.h"
+#include "AnimationHandler.h"
 #include "Point2D.h"
 #include <iostream>
 
@@ -14,7 +16,11 @@ bool isLeft = false;
 bool isRight = false;
 
 Engine engine(800, 600, "SFML Engine", Style::Default);
-PrimitiveShape line(&engine, {Point2D(0, 0), Point2D(100, 0), Point2D(100, 100), Point2D(0, 100)}, true, 5, Color::Black);
+AnimationHandler animation(&engine, {
+	{"spray", "sprayAnim.png"},
+	{"shape", "shapeAnim.png"}
+	}, Point2D(128, 128), Point2D(400, 300), 30);
+PrimitiveShape shape(&engine, { Point2D(0, 0), Point2D(100, 0), Point2D(100, 100), Point2D(0, 100) }, true, 10, Color::Red);
 
 void gameEventHandler(Event event)
 {
@@ -43,22 +49,32 @@ void gameEventHandler(Event event)
 
 		if (event.key.code == Keyboard::A)
 		{
-			line.rotate(-5);
+			shape.rotate(-5);
 		}
 
 		if (event.key.code == Keyboard::D)
 		{
-			line.rotate(5);
+			shape.rotate(5);
 		}
 
 		if (event.key.code == Keyboard::W)
 		{
-			line.scale(1.01);
 		}
 
 		if (event.key.code == Keyboard::S)
 		{
-			line.scale(0.99);
+		}
+
+		if (event.key.code == Keyboard::Q)
+		{
+			animation.setFrameSet("shape");
+			shape.fill(Color::Green);
+		}
+
+		if (event.key.code == Keyboard::E)
+		{
+			animation.setFrameSet("spray");
+			shape.fill(Color::Transparent);
 		}
 	}
 
@@ -104,16 +120,20 @@ void gameEventHandler(Event event)
 
 void gameUpdate()
 {
-	line.move(Point2D(isRight - isLeft, isDown - isUp));
+	animation.step();
+	shape.move(Point2D(isRight - isLeft, isDown - isUp));
 }
 
 void gameRender()
 {
-	line.draw();
+	animation.draw();
+	shape.draw();
 }
 
 int main()
 {
+	animation.setFrameSet("spray");
+
 	engine.setBackgroundColor(Color::White);
 	engine.setFramesPerSecond(60);
 	engine.setLoopFunctions(gameEventHandler, gameUpdate, gameRender);

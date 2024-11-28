@@ -1,5 +1,6 @@
 #include "DrawableObject.h"
 #include <iostream>
+#include <stack>
 
 using namespace std;
 
@@ -104,12 +105,46 @@ void DrawableObject::multiplyMatrix(float matrix[3][3])
 	}
 }
 
+void DrawableObject::fillAlgorithm(int x, int y)
+{
+	stack<pair<int, int>> stack;
+
+	stack.push(make_pair(x, y));
+
+	while (!stack.empty())
+	{
+		pair<int, int> point = stack.top();
+		stack.pop();
+
+		int x = point.first;
+		int y = point.second;
+
+		if (x >= 0 && x < this->matrixWidth && y >= 0 && y < this->matrixHeight)
+		{
+			unsigned int index = x * 4 + y * this->matrixWidth * 4;
+
+			if (this->matrix[index + 3] == 0)
+			{
+				this->matrix[index] = this->fillColor.r;
+				this->matrix[index + 1] = this->fillColor.g;
+				this->matrix[index + 2] = this->fillColor.b;
+				this->matrix[index + 3] = this->fillColor.a;
+
+				stack.push(make_pair(x + 1, y));
+				stack.push(make_pair(x - 1, y));
+				stack.push(make_pair(x, y + 1));
+				stack.push(make_pair(x, y - 1));
+			}
+		}
+	}
+}
+
 DrawableObject::DrawableObject(Engine* engine)
 {
 	this->engine = engine;
 	this->matrixWidth = engine->getMatrixWidth();
 	this->matrixHeight = engine->getMatrixHeight();
-	this->matrix = vector<Uint8>(this->matrixWidth * this->matrixHeight * 4);
+	this->matrix = vector<Uint8>(this->matrixWidth * this->matrixHeight * 4, 0);
 	this->texture.create(this->matrixWidth, this->matrixHeight);
 	this->sprite.setTexture(this->texture);
 	this->sprite.setPosition(0, 0);
@@ -139,6 +174,8 @@ void DrawableObject::move(Point2D vector)
 
 void DrawableObject::rotate(float angle)
 {
+	if (this->isTransformable == false) return;
+
 	float radian = angle * 3.14159265359 / 180;
 	this->multiplyMatrix(new float[3][3]{ {1, 0, (float)this->center.getX()}, {0, 1, (float)this->center.getY()}, {0, 0, 1} });
 	this->multiplyMatrix(new float[3][3]{ {cos(radian), -sin(radian), 0}, {sin(radian), cos(radian), 0}, {0, 0, 1} });
@@ -148,6 +185,8 @@ void DrawableObject::rotate(float angle)
 
 void DrawableObject::scale(float factor)
 {
+	if (this->isTransformable == false) return;
+
 	this->multiplyMatrix(new float[3][3]{ {1, 0, (float)this->center.getX()}, {0, 1, (float)this->center.getY()}, {0, 0, 1} });
 	this->multiplyMatrix(new float[3][3]{ {factor, 0, 0}, {0, factor, 0}, {0, 0, 1} });
 	this->multiplyMatrix(new float[3][3]{ {1, 0, (float)-this->center.getX()}, {0, 1, (float)-this->center.getY()}, {0, 0, 1} });

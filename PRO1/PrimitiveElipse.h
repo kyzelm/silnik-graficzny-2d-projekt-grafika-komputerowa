@@ -5,7 +5,6 @@
 class PrimitiveElipse : public DrawableObject
 {
 private:
-	Point2D center = Point2D(0, 0);
 	Point2D radius = Point2D(0, 0);
 
 public:
